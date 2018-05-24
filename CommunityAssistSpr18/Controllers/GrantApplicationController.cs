@@ -25,16 +25,15 @@ namespace CommunityAssistSpr18.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Index([Bind(Include = "GrantTypeKey, GrantTypeName, GrantTypeDescription, GrantTypeMaximum, GrantTypeLifetimeMaximum, GrantTypeDateEntered")]GrantType g)
+        public ActionResult Index([Bind(Include = "PersonKey, GrantTypeKey, GrantApplicationDate, GrantApplicationReason, GrantApplicationRequestedAmount, GrantApplicationStatusKey ")]GrantApplication g)
         {
             try
             {
-                g.GrantTypeKey = (int)Session["PersonKey"];
-                g.GrantTypeDateEntered = DateTime.Now;
-                db.GrantTypes.Add(g);
+                g.PersonKey = (int)Session["PersonKey"];
+                g.GrantAppicationDate = DateTime.Now;
+                g.GrantApplicationStatusKey = 1;
                 db.SaveChanges();
-                Message m = new Message();
-                m.MessageText = "We will get back to you shortly";
+                Message m = new Message("Thank you. We have recieved your application.");
                 return RedirectToAction("Result", m);
             }
             catch (Exception e)
